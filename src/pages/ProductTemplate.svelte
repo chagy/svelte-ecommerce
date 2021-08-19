@@ -1,1 +1,5 @@
-<h1>Product Template</h1>
+<script>
+  export let id;
+</script>
+
+<h1>Product {id}</h1>
