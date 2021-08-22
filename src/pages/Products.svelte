@@ -3,4 +3,4 @@
 </script>
 
 <h1>Products Page</h1>
-<Products />
+<Products title="Our Products" />
