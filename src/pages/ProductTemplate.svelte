@@ -5,6 +5,7 @@
   import products from "../stores/defaultProducts";
   import Loading from "../components/Loading.svelte";
   import { link } from "svelte-routing";
+  import { addToCart } from "../stores/cart";
 
   import globalStore from "../stores/globalStore";
 
@@ -28,7 +29,12 @@
         <h1>{product.title}</h1>
         <h2>${product.price}</h2>
         <p>{product.description}</p>
-        <button class="btn btn-primary btn-block" on:click={() => {}}>
+        <button
+          class="btn btn-primary btn-block"
+          on:click={() => {
+            addToCart(product);
+          }}
+        >
           add to cart
         </button>
       </article>

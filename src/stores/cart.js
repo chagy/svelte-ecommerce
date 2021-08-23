@@ -1,7 +1,17 @@
 import { writable, derived } from "svelte/store";
-import localCart from "../localCart";
+// import localCart from "../localCart";
 
-const cart = writable([...localCart]);
+function getStorageCart() {
+  return localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [];
+}
+
+export function setStorageCart(cartValues) {
+  localStorage.setItem("cart", JSON.stringify(cartValues));
+}
+
+const cart = writable(getStorageCart());
 
 export const cartTotal = derived(cart, ($cart) => {
   let total = $cart.reduce((acc, curr) => {
@@ -53,6 +63,23 @@ export const decreaseAmount = (id, amount) => {
     }
 
     return [...cart];
+  });
+};
+
+export const addToCart = (product) => {
+  cart.update((storeValue) => {
+    const { id, image, title, price } = product;
+    let item = storeValue.find((item) => item.id === id);
+    let cart;
+
+    if (item) {
+      cart = toggleAmount(id, storeValue, "inc");
+    } else {
+      let newItem = { id, image, title, price, amount: 1 };
+      cart = [...storeValue, newItem];
+    }
+
+    return cart;
   });
 };
 
